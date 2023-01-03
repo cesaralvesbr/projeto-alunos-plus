@@ -50,10 +50,7 @@
     margin-top: 20px;
     margin-bottom: 24px;
 }
-.aluno-container .buttonFiltrar {
-    background-color:  #201465;
-    color:  white;
-}
+
 .aluno-container ul{
     display: grid;
     padding: 0 25px;
