@@ -1,14 +1,19 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import './styles.css'
 
 import { FiXCircle, FiClipboard } from 'react-icons/fi';
-export default function Header() {
+import { Aluno } from "../../Models/Aluno";
+interface HeaderProps{
+    email:string;
+}
+export default function Header({email}:HeaderProps) {
     return (
         <div>
+           
             <header>
                 <FiClipboard size={40} />
-                <span>Bem vindo, <strong>Cesar</strong></span>
+                <span>Bem vindo, <strong>{email}</strong></span>
                 <Link className="button" to={'../aluno/novo/0'}>Novo Aluno</Link>
                 <button type="button">
                     <FiXCircle size={35} color="#17202a" />
