@@ -1,9 +1,16 @@
+import { useState } from "react";
 import { FiCornerDownLeft, FiUserPlus } from "react-icons/fi";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useAluno } from "../../hooks/useAluno";
+import { Aluno } from "../../Models/Aluno";
 import './styles.css';
 
 export default function NovoAluno() {
-    const {alunoId}= useParams();
+    const [aluno, setAluno] = useState<Aluno>({} as Aluno)
+    const history = useNavigate();
+
+   
+    const { alunoId } = useParams();
     return (
         <div className="novo-aluno-container">
             <div className="content">
@@ -21,7 +28,9 @@ export default function NovoAluno() {
                     <input type="text" placeholder="Nome" />
                     <input type="email" placeholder="Email" />
                     <input type="number" placeholder="Idade" />
-                    <button className="button" type="submit">{alunoId === '0' ? 'Adicionar' : 'Atualizar'}</button>
+                    <button className="button" type="submit">
+                        {alunoId === '0' ? 'Adicionar' : 'Atualizar'}
+                    </button>
                 </form>
             </div>
         </div>

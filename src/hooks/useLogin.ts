@@ -23,5 +23,18 @@ export function useLogin<T = unknown>() {
         }
     }
 
-    return{data, efetuarLogin}
+    const efetuarLogout = async (authorization:any) => {       
+        try 
+        {         
+            localStorage.clear();                 
+            localStorage.setItem('token','');
+            authorization.headers = '';  
+            history('/')            
+
+        } catch (error) {
+            alert('Não foi possível efetuar o logout' + error)
+        }
+    }
+
+    return{data, efetuarLogin, efetuarLogout}
 }

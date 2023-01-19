@@ -1,32 +1,23 @@
 import Header from './Header'
 import RelacaoAlunos from './RelacaoAlunos'
 import './styles.css'
-import { SetStateAction, useEffect, useState } from 'react'
-import { Aluno } from '../../Models/Aluno'
 import { useAluno } from '../../hooks/useAluno'
+import Login from '../Login'
+import { useSessao } from '../../hooks/useSessao'
 
 
 export default function Alunos() {
-
-    const [aluno, setAluno] = useState<Aluno>({} as Aluno)
-    const [alunos, setAlunos] = useState<Aluno[]>([] as Aluno[]);
-    
-    const token = localStorage.getItem('token')
-    const email = localStorage.getItem('email')
-
-  
-    const authorization = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-    const {data: todosAlunos } = useAluno<any>(authorization, token); 
-
+    const { email, token, authorization } = useSessao<any>()
+    const { data: todosAlunos } = useAluno<any>();
 
     return (
         <div className="aluno-container">
-            <Header email={email?? ""}/>
-            <RelacaoAlunos alunos={todosAlunos}/>
+            {token ?
+                <div>
+                    <Header email={email ?? ""} authorization={authorization} />
+                    <RelacaoAlunos alunos={todosAlunos} />
+                </div> :
+                <Login />}
         </div>
     )
 }
