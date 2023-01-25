@@ -4,4 +4,6 @@ export interface Aluno {
     nome: string;
     email: string | null;
     idade: number;
+
+   
 }

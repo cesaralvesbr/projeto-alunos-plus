@@ -8,6 +8,7 @@ import { useSessao } from "./useSessao";
 export function useAluno<T = unknown>() {
     const url = '/api/alunos';
     const [data, setData] = useState<T | null>();
+    const [alunoSelecionado, setAlunoSelecionado] = useState<Aluno | null>({} as Aluno);  
     const [updateData, setUpdateData] = useState<boolean>(true);
     const history = useNavigate();
 
@@ -15,12 +16,25 @@ export function useAluno<T = unknown>() {
 
     const obterAlunos = async () => {
         try {
-            await api.get(url, authorization).then((response: AxiosResponse<any>) => { setData(response.data) }, ()=> token);
-        } 
-        catch (error) {            
-            alert('Falha ao acessar api/alunos' + error)
-            history('/')            
+            await api.get(url, authorization).then((response: AxiosResponse<any>) => { setData(response.data) }, () => token);
         }
+        catch (error) {
+            alert('Falha ao acessar api/alunos' + error)
+            history('/')
+        }
+    }
+  
+
+    const obterAlunoId = async (id: string) => {
+        try {
+            await api.get(`${url}/${id}`, authorization).then((response: AxiosResponse<any>) => {
+                setAlunoSelecionado(response.data)
+            }, () => token);
+        } catch (error) {
+            alert('Falha ao acessar api/alunos' + error)
+            history('/alunos')
+        }
+
     }
 
     const adicionarAluno = async (aluno: Aluno) => {
@@ -53,9 +67,9 @@ export function useAluno<T = unknown>() {
             console.log({ "edição/sucesso": JSON.stringify(response.data) });
             setUpdateData(true)
         }).catch(error => {
-                console.log(error)
-            })
-        }
+            console.log(error)
+        })
+    }
 
     useEffect(() => {
         if (updateData) {
@@ -64,5 +78,5 @@ export function useAluno<T = unknown>() {
         }
     }, [updateData])
 
-    return { data, adicionarAluno, editarAluno }
+    return { data, alunoSelecionado, setAlunoSelecionado, obterAlunos, obterAlunoId, adicionarAluno, editarAluno }
 }

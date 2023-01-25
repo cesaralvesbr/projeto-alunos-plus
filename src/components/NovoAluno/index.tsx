@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { FiCornerDownLeft, FiUserPlus } from "react-icons/fi";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAluno } from "../../hooks/useAluno";
@@ -6,11 +6,37 @@ import { Aluno } from "../../Models/Aluno";
 import './styles.css';
 
 export default function NovoAluno() {
-    const [aluno, setAluno] = useState<Aluno>({} as Aluno)
-    const history = useNavigate();
+    const { alunoSelecionado, obterAlunoId } = useAluno<any>();
 
-   
+    useEffect(() => {
+        setNome(alunoSelecionado?.nome ?? "")
+        setEmail(alunoSelecionado?.email ?? "")
+        setIdade(alunoSelecionado?.idade ?? 0)
+    }, [alunoSelecionado?.email, alunoSelecionado?.idade, alunoSelecionado?.nome])
+
+    const [nome, setNome] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [idade, setIdade] = useState<number>(0)
+    const [aluno, setAluno] = useState<Aluno | null>({} as Aluno);
+     
     const { alunoId } = useParams();
+
+    useEffect(() => {
+        if (alunoId === '0')
+            return;
+        else
+            carregarAluno();
+    }, [alunoId])
+
+
+    async function carregarAluno() {      
+        obterAlunoId(alunoId as string)
+    }
+
+    async function efetuarOperacao(nome: string, email: string, idade:number) {      
+        setAluno({ id: 0, nome, email, idade })       
+    }
+
     return (
         <div className="novo-aluno-container">
             <div className="content">
@@ -25,10 +51,10 @@ export default function NovoAluno() {
                 </section>
 
                 <form>
-                    <input type="text" placeholder="Nome" />
-                    <input type="email" placeholder="Email" />
-                    <input type="number" placeholder="Idade" />
-                    <button className="button" type="submit">
+                    <input type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
+                    <input type="email" placeholder="Email" value={email || ""} onChange={e => setEmail(e.target.value)} />
+                    <input type="number" placeholder="Idade" value={idade} onChange={e => setIdade(e.target.valueAsNumber)} />
+                    <button className="button" type="submit" onClick={() => efetuarOperacao(nome, email, idade)}>
                         {alunoId === '0' ? 'Adicionar' : 'Atualizar'}
                     </button>
                 </form>
