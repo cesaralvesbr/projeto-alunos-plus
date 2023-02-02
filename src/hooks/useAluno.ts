@@ -9,14 +9,17 @@ export function useAluno<T = unknown>() {
     const url = '/api/alunos';
     const [data, setData] = useState<T | null>();
     const [alunoSelecionado, setAlunoSelecionado] = useState<Aluno | null>({} as Aluno);
-    const [updateData, setUpdateData] = useState<boolean>(true);
+    const [loading, setLoading] = useState(true);
+
     const history = useNavigate();
 
     const { token, authorization } = useSessao<any>()
 
+
     const obterAlunos = async () => {
         try {
             await api.get(url, authorization).then((response: AxiosResponse<any>) => { setData(response.data) }, () => token);
+
         }
         catch (error) {
             alert('Falha ao acessar api/alunos' + error)
@@ -36,7 +39,7 @@ export function useAluno<T = unknown>() {
 
     }
 
-    const adicionarAluno = async (aluno: Aluno) => {      
+    const adicionarAluno = async (aluno: Aluno) => {
         try {
             await api.post(`${url}`, aluno, authorization).then((response: AxiosResponse<any>) => {
             });
@@ -57,20 +60,26 @@ export function useAluno<T = unknown>() {
 
     const excluirAluno = async (id: number) => {
         try {
-            await api.delete(`${url}/${id}`, authorization).then((response: AxiosResponse<any>) => {               
-                setUpdateData(true);
+            await api.delete(`${url}/${id}`, authorization).then((response: AxiosResponse<any>) => {
+                setLoading(true);
             });
-        } catch (error) {            
+        } catch (error) {
             alert('Falha ao acessar api/alunos' + error)
         }
     }
 
     useEffect(() => {
-        if (updateData) {
-            obterAlunos();
-            setUpdateData(false)
+        async function fetchData() {
+            if (loading) {
+                obterAlunos();
+            }
         }
-    }, [updateData])
+        setLoading(false);
+        fetchData();
+    }, [loading]);
 
-    return { data, alunoSelecionado, setAlunoSelecionado, obterAlunos, obterAlunoId, adicionarAluno, editarAluno, excluirAluno }
+
+
+
+    return { data, alunoSelecionado, loading, setAlunoSelecionado, obterAlunos, obterAlunoId, adicionarAluno, editarAluno, excluirAluno }
 }
