@@ -5,22 +5,26 @@ export function usePesquisa<T = unknown>() {
     const [searchInput, setSearchInput] = useState<string>("")
     const [filtro, setFiltro] = useState<string[]>([])
 
-    const {data: todosAlunos } = useAluno<any>();
+    
+        const {data:todosAlunos } = useAluno<any>();
 
-       
-    const procurarAlunos = (valorProcura: string) => {        
-        setSearchInput(valorProcura);      
+  
+    const procurarAlunos = (valorProcura: string) => {     
+
+        setSearchInput(valorProcura);
         const searchInputAtualizado = valorProcura;
-
+                
         if (searchInputAtualizado !== '') {
-            const dadosFiltrados = todosAlunos.filter((item:string) => {
+            const dadosFiltrados = todosAlunos.filter((item: string) => {
                 return Object.values(item).join('').toLowerCase().includes(searchInputAtualizado.toLowerCase())
             });
-            setFiltro(dadosFiltrados);          
-        }else{
-            setFiltro(todosAlunos);          
-        }       
-    }   
+            setFiltro(dadosFiltrados);
+            console.log(dadosFiltrados);
+        } else {
+            console.log(todosAlunos);
+            setFiltro(todosAlunos);
+        }
+    }
 
-    return{filtro,searchInput, procurarAlunos}
+    return { filtro, searchInput, procurarAlunos }
 }
