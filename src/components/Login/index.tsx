@@ -23,11 +23,9 @@ export default function Login() {
             <section className="form">
                 <img src={logoImagem} alt="login" id="img1" />
                 <form onSubmit={login}>
-
                     <input type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
                     <input type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} />
                     <button className="button" type="submit">Login</button>
-
                 </form>
             </section>
         </div>

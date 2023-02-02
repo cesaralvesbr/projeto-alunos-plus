@@ -11,7 +11,7 @@ export default function Alunos() {
     const { data: todosAlunos } = useAluno<any>();
 
     return (
-        <div className="aluno-container">
+        <div className="aluno-container">           
             {token ?
                 <div>
                     <Header email={email ?? ""} authorization={authorization} />

@@ -24,7 +24,6 @@ export function useAluno<T = unknown>() {
         }
     }
 
-
     const obterAlunoId = async (id: string) => {
         try {
             await api.get(`${url}/${id}`, authorization).then((response: AxiosResponse<any>) => {
@@ -37,8 +36,7 @@ export function useAluno<T = unknown>() {
 
     }
 
-    const adicionarAluno = async (aluno: Aluno) => {
-        debugger;
+    const adicionarAluno = async (aluno: Aluno) => {      
         try {
             await api.post(`${url}`, aluno, authorization).then((response: AxiosResponse<any>) => {
             });

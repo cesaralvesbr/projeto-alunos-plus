@@ -1,6 +1,7 @@
 import { FiEdit, FiUserX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useAluno } from "../../hooks/useAluno";
+import { usePesquisa } from "../../hooks/usePesquisa";
 import { Aluno } from "../../Models/Aluno";
 
 interface RelacaoAlunosProps {
@@ -9,40 +10,43 @@ interface RelacaoAlunosProps {
 
 export default function RelacaoAlunos({ alunos }: RelacaoAlunosProps) {
     const history = useNavigate();
-    const {excluirAluno  } = useAluno<any>();
+    const { excluirAluno } = useAluno<any>();
+    const { filtro } = usePesquisa<any>();
 
-    function editarAlunoSelecionado(id:number){
+    function editarAlunoSelecionado(id: number) {
         history(`../aluno/novo/${id}`)
     }
 
-    function excluirAlunoSelecionado(id:number){
+    function excluirAlunoSelecionado(id: number) {
         excluirAluno(id)
     }
 
+   
     function relacaoAlunos() {
         return alunos?.map((aluno) => {
             return (
-                <ul key={aluno.id}>
-                    <li key={aluno.id}>
-                        <b>Nome:</b>{aluno.nome} <br /><br />
-                        <b>Email:</b>{aluno.email}<br /><br />
-                        <b>Idade:</b>{aluno.idade}<br /><br />
+                <li key={aluno.id}>
+                    <b>Nome:</b>{aluno.nome} <br /><br />
+                    <b>Email:</b>{aluno.email}<br /><br />
+                    <b>Idade:</b>{aluno.idade}<br /><br />
 
-                        <button type="button">
-                            <FiEdit size={25} color="#17202a" onClick={()=> editarAlunoSelecionado(aluno.id)}/>
-                        </button>
-                        <button type="button">
-                            <FiUserX size={25} color="#17202a" onClick={()=> excluirAlunoSelecionado(aluno.id)}/>
-                        </button>
-                    </li>
-                </ul>)
+                    <button type="button">
+                        <FiEdit size={25} color="#17202a" onClick={() => editarAlunoSelecionado(aluno.id)} />
+                    </button>
+                    <button type="button">
+                        <FiUserX size={25} color="#17202a" onClick={() => excluirAlunoSelecionado(aluno.id)} />
+                    </button>
+                </li>
+            )
         })
     }
 
     return (
         <div>
             <h1>Relação de Aluno</h1>
-            {relacaoAlunos()}
+            <ul>
+                {relacaoAlunos()}
+            </ul>
         </div>
     );
 }
