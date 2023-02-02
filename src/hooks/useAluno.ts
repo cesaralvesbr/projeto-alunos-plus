@@ -8,7 +8,7 @@ import { useSessao } from "./useSessao";
 export function useAluno<T = unknown>() {
     const url = '/api/alunos';
     const [data, setData] = useState<T | null>();
-    const [alunoSelecionado, setAlunoSelecionado] = useState<Aluno | null>({} as Aluno);  
+    const [alunoSelecionado, setAlunoSelecionado] = useState<Aluno | null>({} as Aluno);
     const [updateData, setUpdateData] = useState<boolean>(true);
     const history = useNavigate();
 
@@ -23,7 +23,7 @@ export function useAluno<T = unknown>() {
             history('/')
         }
     }
-  
+
 
     const obterAlunoId = async (id: string) => {
         try {
@@ -38,37 +38,33 @@ export function useAluno<T = unknown>() {
     }
 
     const adicionarAluno = async (aluno: Aluno) => {
-        await api({
-            method: 'post',
-            url: url,
-            withCredentials: false,
-            data: aluno,
-            headers: {
-                'content-Type': 'application/json'
-            }
-        }).then(response => {
-            console.log({ "adição/sucesso": JSON.stringify(response.data) });
-            setUpdateData(true)
-        }).catch(error => {
-            console.log(error)
-        })
+        debugger;
+        try {
+            await api.post(`${url}`, aluno, authorization).then((response: AxiosResponse<any>) => {
+            });
+            history('/alunos');
+        } catch (error) {
+            alert('Falha ao acessar api/alunos' + error)
+        }
     }
 
     const editarAluno = async (aluno: Aluno) => {
-        await api({
-            method: 'put',
-            url: url + "/" + aluno.id,
-            withCredentials: false,
-            data: aluno,
-            headers: {
-                'content-Type': 'application/json'
-            }
-        }).then(response => {
-            console.log({ "edição/sucesso": JSON.stringify(response.data) });
-            setUpdateData(true)
-        }).catch(error => {
-            console.log(error)
-        })
+        try {
+            await api.put(`${url}/${aluno.id}`, aluno, authorization).then((response: AxiosResponse<any>) => {
+            });
+        } catch (error) {
+            alert('Falha ao acessar api/alunos' + error)
+        }
+    }
+
+    const excluirAluno = async (id: number) => {
+        try {
+            await api.delete(`${url}/${id}`, authorization).then((response: AxiosResponse<any>) => {               
+                setUpdateData(true);
+            });
+        } catch (error) {            
+            alert('Falha ao acessar api/alunos' + error)
+        }
     }
 
     useEffect(() => {
@@ -78,5 +74,5 @@ export function useAluno<T = unknown>() {
         }
     }, [updateData])
 
-    return { data, alunoSelecionado, setAlunoSelecionado, obterAlunos, obterAlunoId, adicionarAluno, editarAluno }
+    return { data, alunoSelecionado, setAlunoSelecionado, obterAlunos, obterAlunoId, adicionarAluno, editarAluno, excluirAluno }
 }
