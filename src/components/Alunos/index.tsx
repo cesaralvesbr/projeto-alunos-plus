@@ -20,25 +20,33 @@ export default function Alunos() {
 
     const [pesquisa, setPesquisa] = useState<string>("")
 
+    const obterValorPesquisa = (valorProcura: string) => {
+        setPesquisa(valorProcura);
+        if (valorProcura !== "") {
+            procurarAlunos(pesquisa)
+            console.log(filtro);
+        }
+    }
+
+
     useEffect(() => {
-        procurarAlunos(pesquisa)
-        console.log(filtro);
+        obterValorPesquisa(pesquisa);
     }, [pesquisa])
 
-   
+
     return (
 
         <div className="aluno-container">
             {token ?
                 <div>
-                <Header email={email ?? ""}
-                    authorization={authorization}
-                    alunos={todosAlunos}
-                    pesquisa={pesquisa}
-                    efetuarLogout={efetuarLogout}
-                    inputPesquisa={setPesquisa}
-                    procurarAlunos={procurarAlunos}
-                />
+                    <Header email={email ?? ""}
+                        authorization={authorization}
+                        alunos={todosAlunos}
+                        pesquisa={pesquisa}
+                        efetuarLogout={efetuarLogout}
+                        inputPesquisa={obterValorPesquisa}
+                        procurarAlunos={procurarAlunos}
+                    />
 
                     <RelacaoAlunos alunos={todosAlunos} excluirAluno={excluirAluno} filtro={filtro} searchInput={searchInput} />
                 </div> :
