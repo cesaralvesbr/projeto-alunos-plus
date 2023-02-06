@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiCornerDownLeft, FiUserPlus } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import { useAluno } from "../../hooks/useAluno";
@@ -7,7 +7,7 @@ import './styles.css';
 
 export default function NovoAluno() {
     const { alunoSelecionado, obterAlunoId, editarAluno, adicionarAluno } = useAluno<any>();
-
+   
     useEffect(() => {
         setNome(alunoSelecionado?.nome ?? "")
         setEmail(alunoSelecionado?.email ?? "")
@@ -17,11 +17,10 @@ export default function NovoAluno() {
     const [nome, setNome] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [idade, setIdade] = useState<number>(0)
-    const [aluno, setAluno] = useState<Aluno>({} as Aluno);
-
+    
     const { alunoId } = useParams();
 
-    useEffect(() => {
+    useEffect(() => {   
         if (alunoId === '0')
             return;
         else
@@ -29,22 +28,25 @@ export default function NovoAluno() {
     }, [alunoId])
 
 
-    async function carregarAluno() {
+    async function carregarAluno() {        
         obterAlunoId(alunoId as string)
+    }
+
+    function adicionarNovoAluno(aluno: Aluno) {      
+        adicionarAluno(aluno);
     }
 
     async function efetuarOperacao(event: React.SyntheticEvent<EventTarget>, nome: string, email: string, idade: number) {
         event.preventDefault();
-        
-        setAluno(prevAluno => {
-            const dadosAluno = { id: Number(alunoId), nome, email, idade }
-            if (alunoId === "0") {               
-                adicionarAluno(dadosAluno);
-            } else {
-                editarAluno(dadosAluno);
-            }
-            return dadosAluno;
-        });
+
+        const dadosAluno = { id: Number(alunoId), nome, email, idade }
+        if (alunoId === "0") {
+            adicionarNovoAluno(dadosAluno);
+        } else {
+            editarAluno(dadosAluno);
+        }
+
+        return dadosAluno;
     }
 
     return (
