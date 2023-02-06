@@ -1,26 +1,24 @@
 import { FiEdit, FiUserX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useAluno } from "../../hooks/useAluno";
 import { usePesquisa } from "../../hooks/usePesquisa";
 import { Aluno } from "../../Models/Aluno";
 
 interface RelacaoAlunosProps {
-    alunos: Aluno[] | null
+    alunos: Aluno[] | null,
+    excluirAluno(id:number): Promise<void>;
 }
 
-export default function RelacaoAlunos({ alunos }: RelacaoAlunosProps) {
-    const history = useNavigate();
-    const { excluirAluno } = useAluno<any>();
-    const { filtro } = usePesquisa<any>();
+export default function RelacaoAlunos({ alunos, excluirAluno }: RelacaoAlunosProps) {
+    const history = useNavigate();    
+    const { filtro } = usePesquisa();
 
     function editarAlunoSelecionado(id: number) {
         history(`../aluno/novo/${id}`)
     }
 
     function excluirAlunoSelecionado(id: number) {
-        excluirAluno(id)
+        excluirAluno(id)        
     }
-
    
     function relacaoAlunos() {
         return alunos?.map((aluno) => {

@@ -9,10 +9,11 @@ import { usePesquisa } from "../../hooks/usePesquisa";
 interface HeaderProps {
     email: string;
     authorization: any;
+    alunos: Aluno[] | null;
 }
-export default function Header({ email, authorization }: HeaderProps) {  
+export default function Header({ email, authorization, alunos }: HeaderProps) {  
     const { efetuarLogout } = useLogin<any>()      
-    const { procurarAlunos } = usePesquisa<any>()    
+    const { procurarAlunos } = usePesquisa(alunos as Aluno[])    
 
     const [pesquisa, setPesquisa] = useState<string>("")
     return (
