@@ -1,14 +1,16 @@
 import { Aluno } from './../Models/Aluno';
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 
-export function usePesquisa( todosAlunos?: Aluno[]) {
+export function usePesquisa(todosAlunos?: Aluno[]) {
     const [searchInput, setSearchInput] = useState<string>("")
-    const [filtro, setFiltro] = useState<Aluno[]>([])  
+    const [filtro, setFiltro] = useState<Aluno[]>([])
 
+    // const valorFiltrado = (alunosFiltradoss: Aluno[]) => {
+    //     console.log(alunosFiltradoss);
+    // }
 
     const procurarAlunos = (valorProcura: string) => {
-
         setSearchInput(valorProcura);
         const searchInputAtualizado = valorProcura;
 
@@ -16,12 +18,13 @@ export function usePesquisa( todosAlunos?: Aluno[]) {
             const dadosFiltrados = todosAlunos?.filter((item) => {
                 return Object.values(item).join('').toLowerCase().includes(searchInputAtualizado.toLowerCase())
             });
-           
-           dadosFiltrados && setFiltro(dadosFiltrados);
-            console.log(dadosFiltrados);
-        } else {
-            console.log(todosAlunos);
+
+            dadosFiltrados && setFiltro(dadosFiltrados);
+            // valorFiltrado(dadosFiltrados as []);
+        } else {         
+            
             todosAlunos && setFiltro(todosAlunos);
+            // valorFiltrado(todosAlunos as []);
         }
     }
 
