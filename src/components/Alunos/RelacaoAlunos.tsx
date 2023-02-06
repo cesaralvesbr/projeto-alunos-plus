@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { FiEdit, FiUserX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { usePesquisa } from "../../hooks/usePesquisa";
 import { Aluno } from "../../Models/Aluno";
 
 interface RelacaoAlunosProps {

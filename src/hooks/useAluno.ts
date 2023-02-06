@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../assets/services/api"
 import { Aluno } from "../Models/Aluno";

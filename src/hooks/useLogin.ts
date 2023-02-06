@@ -1,11 +1,9 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import api from "../assets/services/api"
-import { LoginView } from "../Models/LoginView";
 
 export function useLogin<T = unknown>() {
-    const [data, setData] = useState<T | null>(null);
-    const [updateData, setUpdateData] = useState<boolean>(true);
+    const [data, setData] = useState<T | null>(null);  
     const history = useNavigate();
 
     const efetuarLogin = async (entrada: any) => {

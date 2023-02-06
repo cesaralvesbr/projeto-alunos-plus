@@ -8,8 +8,6 @@ import { useEffect, useState } from 'react'
 import { useLogin } from '../../hooks/useLogin'
 import { usePesquisa } from '../../hooks/usePesquisa'
 import { Aluno } from '../../Models/Aluno'
-import { FiClipboard, FiXCircle } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
 
 
 export default function Alunos() {

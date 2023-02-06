@@ -1,11 +1,8 @@
-import React, { Dispatch, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import './styles.css'
 
 import { FiXCircle, FiClipboard } from 'react-icons/fi';
 import { Aluno } from "../../Models/Aluno";
-import { useLogin } from "../../hooks/useLogin";
-import { usePesquisa } from "../../hooks/usePesquisa";
 interface HeaderProps {
     email: string;
     pesquisa: string;
